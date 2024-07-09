@@ -23,6 +23,29 @@ return {
             cmp_lsp.default_capabilities()
         )
 
+        local lspconfig = require("lspconfig")
+        --local lspconfig_config = require("lspconfig.configs")
+        -- mlang
+        --if not lspconfig_config.mlang then
+        --    local mlang_server = "/opt/mlang/server.js"
+        --    lspconfig_config.mlang = {
+        --        default_config = {
+        --            name = "mlang",
+        --            cmd = { "node", mlang_server, "--stdio" },
+        --            filetypes = { "matlab", "octave", "m" },
+        --            root_dir = function()
+        --                return vim.fn.getcwd()
+        --            end,
+        --            settings = {
+        --                settings = {
+        --                    maxNumberOfProblems = 1000,
+        --                },
+        --            },
+        --        },
+        --    }
+        --end
+        --lspconfig.mlang.setup({})
+
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
@@ -33,13 +56,12 @@ return {
             handlers = {
                 function(server_name) -- default handler (optional)
 
-                    require("lspconfig")[server_name].setup {
+                    lspconfig[server_name].setup {
                         capabilities = capabilities
                     }
                 end,
 
                 ["phpactor"] = function ()
-                    local lspconfig = require("lspconfig")
                     lspconfig.phpactor.setup({
                         cmd = {'phpactor', 'language-server', '-vvv'},
                         filetypes = {'php'},
@@ -49,7 +71,6 @@ return {
                     })
                 end,
                 ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
                         capabilities = capabilities,
                         settings = {
@@ -62,10 +83,16 @@ return {
                         }
                     }
                 end,
-                ["emmet_ls"] = function ()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.emmet_ls.setup({
+                ["emmet_language_server"] = function ()
+                    lspconfig.emmet_language_server.setup({
                         filetypes = {"html","php","smarty"}
+                    })
+                end,
+                ["java_language_server"] = function ()
+                    lspconfig.java_language_server.setup({
+                        root_dir = function()
+                            return vim.fn.expand('%:p:h')
+                        end,
                     })
                 end,
             }
