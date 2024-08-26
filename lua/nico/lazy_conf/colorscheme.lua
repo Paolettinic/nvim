@@ -1,7 +1,3 @@
-function ColorMyPencils(color)
-	color = color or "sonokai"
-	vim.cmd.colorscheme(color)
-end
 
 return {
     {
@@ -11,7 +7,9 @@ return {
       config = function()
         -- Optionally configure and load the colorscheme
         -- directly inside the plugin declaration.
+
         vim.g.sonokai_enable_italic = true
+        vim.g.sonokai_style = "shusia"
         vim.cmd.colorscheme('sonokai')
       end
     }

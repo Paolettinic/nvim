@@ -11,6 +11,7 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
+        "ray-x/lsp_signature.nvim",
     },
 
     config = function()
@@ -47,6 +48,14 @@ return {
         --lspconfig.mlang.setup({})
 
         require("fidget").setup({})
+        require('lsp_signature').setup({
+            bind = true, -- This is mandatory, otherwise border config won't get registered.
+            handler_opts = {
+                border = "rounded"
+            },
+            hint_prefix = "📃"
+
+        })
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -128,23 +137,23 @@ return {
                 }
             ),
             formatting = {
-                    -- changing the order of fields so the icon is the first
-                    fields = {'menu', 'abbr', 'kind'},
+                -- changing the order of fields so the icon is the first
+                fields = {'menu', 'abbr', 'kind'},
 
-                    -- here is where the change happens
-                    format = function(entry, item)
-                        local menu_icon = {
-                            nvim_lsp = 'λ',
-                            luasnip = '⋗',
-                            buffer = 'Ω',
-                            path = '🖫',
-                            nvim_lua = 'Π',
-                        }
+                -- here is where the change happens
+                format = function(entry, item)
+                    local menu_icon = {
+                        nvim_lsp = 'λ',
+                        luasnip = '⋗',
+                        buffer = 'Ω',
+                        path = '🖫',
+                        nvim_lua = 'Π',
+                    }
 
-                        item.menu = menu_icon[entry.source.name]
-                        return item
-                    end,
-                },
+                    item.menu = menu_icon[entry.source.name]
+                    return item
+                end,
+            },
 
         })
 
